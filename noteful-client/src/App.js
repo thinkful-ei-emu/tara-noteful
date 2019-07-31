@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import MainPage from "./components/Main-Page";
@@ -92,66 +92,70 @@ class App extends React.Component {
       <div className="App">
         <Header />
         <Sidebar>
-          <Switch>
-            <Route
-              path="/note/:noteId"
-              render={({ history }) => {
-                return <NoteSidebar history={history} />;
-              }}
-            />
-            <Route
-              path="/"
-              render={() => {
-                return (
-                  <MainSidebar
-                    setCurrentFolder={this.setCurrentFolder}
-                    folders={this.state.folders}
-                  />
-                );
-              }}
-            />
-          </Switch>
+          <BrowserRouter>
+            <Switch>
+              <Route
+                path="/note/:noteId"
+                render={({ history }) => {
+                  return <NoteSidebar history={history} />;
+                }}
+              />
+              <Route
+                path="/"
+                render={() => {
+                  return (
+                    <MainSidebar
+                      setCurrentFolder={this.setCurrentFolder}
+                      folders={this.state.folders}
+                    />
+                  );
+                }}
+              />
+            </Switch>
+          </BrowserRouter>
         </Sidebar>
         <Main>
-          <Switch>
-            <Route
-              path="/note/:noteId"
-              render={({ match, history }) => {
-                return (
-                  <NotePage
-                    match={match}
-                    history={history}
-                    notes={this.state.notes}
-                  />
-                );
-              }}
-            />
-            <Route
-              path="/folder/:folderId"
-              render={({ match }) => {
-                return (
-                  <FolderPage
-                    match={match}
-                    folders={this.state.folders}
-                    notes={this.state.notes}
-                  />
-                );
-              }}
-            />
-            <Route
-              exact
-              path="/"
-              render={() => {
-                return (
-                  <MainPage
-                    notes={this.state.notes}
-                    folders={this.state.folders}
-                  />
-                );
-              }}
-            />
-            <Route component={NotFound} />
-          </Switch>
+          <BrowserRouter>
+            <Switch>
+              <Route
+                path="/note/:noteId"
+                render={({ match, history }) => {
+                  return (
+                    <NotePage
+                      match={match}
+                      history={history}
+                      notes={this.state.notes}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/folder/:folderId"
+                render={({ match }) => {
+                  return (
+                    <FolderPage
+                      match={match}
+                      folders={this.state.folders}
+                      notes={this.state.notes}
+                    />
+                  );
+                }}
+              />
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return (
+                    <MainPage
+                      notes={this.state.notes}
+                      folders={this.state.folders}
+                    />
+                  );
+                }}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </BrowserRouter>
         </Main>
       </div>
     );
