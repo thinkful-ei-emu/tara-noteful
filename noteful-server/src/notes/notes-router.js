@@ -39,7 +39,7 @@ notesRouter
       }
     }
 
-    newNote.folderId = folderId;
+    newNote['folderid'] = Number(folderId);
     NotesService.insertNote(req.app.get('db'), newNote)
       .then(note => {
         res
