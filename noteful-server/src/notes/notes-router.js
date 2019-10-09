@@ -11,7 +11,7 @@ const serializeNote = note => ({
   name: xss(note.name), // sanitize name
   content: xss(note.content), // sanitize content
   modified: note.modified,
-  folderId: note.folderId
+  folder_id: note.folder_id
 });
 
 notesRouter
@@ -25,8 +25,8 @@ notesRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { name, content, folderId} = req.body;
-    const newNote = { name, content, folderid: Number(folderId) };
+    const { name, content, folder_id} = req.body;
+    const newNote = { name, content, folder_id: Number(folder_id) };
 
     for (const [key, value] of Object.entries(newNote)) {
       // eslint-disable-next-line eqeqeq
@@ -74,8 +74,8 @@ notesRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const { name, content, folderId } = req.body;
-    const noteToUpdate = { name, content, folderId };
+    const { name, content, folder_id } = req.body;
+    const noteToUpdate = { name, content, folder_id };
 
     const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
     if (numberOfValues === 0) {
