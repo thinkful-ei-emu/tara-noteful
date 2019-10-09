@@ -17,7 +17,6 @@ const serializeNote = note => ({
 notesRouter
   .route('/')
   .get((req, res, next) => {
-    console.log('getting notes!');
     const db = req.app.get('db');
     NotesService.getAllNotes(db)
       .then(notes => {
@@ -27,19 +26,17 @@ notesRouter
   })
   .post(jsonParser, (req, res, next) => {
     const { name, content, folderId} = req.body;
-    console.log(name, content, folderId);
-    const newNote = { name, content };
+    const newNote = { name, content, folderid: Number(folderId) };
 
     for (const [key, value] of Object.entries(newNote)) {
       // eslint-disable-next-line eqeqeq
-      if (value == null) {
+      if (!value) {
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` }
         });
       }
     }
 
-    newNote['folderid'] = Number(folderId);
     NotesService.insertNote(req.app.get('db'), newNote)
       .then(note => {
         res
